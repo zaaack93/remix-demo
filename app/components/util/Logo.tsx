@@ -1,7 +1,9 @@
+import { NavLink } from "@remix-run/react";
+
 function Logo() {
   return (
     <h1 id="logo">
-      <a href="/">RemixExpenses</a>
+      <NavLink to="/" aria-label="RemixExpenses">RemixExpenses</NavLink>
     </h1>
   );
 }
