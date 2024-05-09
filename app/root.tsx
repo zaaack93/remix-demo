@@ -1,3 +1,4 @@
+import { LinksFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -5,6 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+
+import sharedStyles from '~/styles/shared.css?url'
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: sharedStyles },
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
