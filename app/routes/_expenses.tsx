@@ -1,5 +1,6 @@
 import { LinksFunction } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
+import MainHeaderExpenses from "~/components/navigation/MainHeaderExpenses";
 
 import expensesStyles from "~/styles/expenses.css?url";
 
@@ -9,6 +10,9 @@ export const links: LinksFunction = () => [
 
 export default function Expenses() {
     return (
-        <Outlet />
+        <>
+            <MainHeaderExpenses />
+            <Outlet />
+        </>
     )
   }
