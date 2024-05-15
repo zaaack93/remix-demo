@@ -1,12 +1,12 @@
 import { prisma } from "~/backend/db.server";
-import type { Expenses } from "~/helpers/types";
+import type { Expense } from "~/helpers/types";
 
-export async function addExpenses(expensesData: Expenses) {
+export async function addExpenses(expensesData:Expense):Promise<Expense> {
     try {
         const expense = await prisma.expense.create({
             data: {
                 title: expensesData.title,
-                amount: expensesData.amount,
+                amount: +expensesData.amount,
                 date: new Date(expensesData.date),
             },
         });
