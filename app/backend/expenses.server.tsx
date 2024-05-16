@@ -16,3 +16,17 @@ export async function addExpenses(expensesData:Expense):Promise<Expense> {
         throw new Error("Failed to add expenses");
     }
 }
+
+export async function fetchExpenses():Promise<Expense[]> {
+    try {
+        const expenses = await prisma.expense.findMany({
+            orderBy: {
+                date: "desc",
+            },
+        });
+        return expenses;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to fetch expenses");
+    }
+}

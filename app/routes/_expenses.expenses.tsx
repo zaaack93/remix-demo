@@ -1,15 +1,20 @@
-import { Link, Outlet } from "@remix-run/react";
+import { Link, Outlet, json, useLoaderData } from "@remix-run/react";
+import { useEffect } from "react";
 import { FaDownload, FaPlus } from "react-icons/fa";
+import { fetchExpenses } from "~/backend/expenses.server";
 import ExpensesList from "~/components/expenses/ExpensesList";
+import { Expense } from "~/helpers/types";
 
-const DUMMY_EXPENSES = [
-  { id: "e1", title: "Toilet Paper", amount: 94.12, date: new Date(2022, 7, 14) },
-  { id: "e2", title: "New TV", amount: 799.49, date: new Date(2022, 2, 12) },
-  { id: "e3", title: "Car Insurance", amount: 294.67, date: new Date(2022, 2, 28) },
-  { id: "e4", title: "New Desk (Wooden)", amount: 450, date: new Date(2022, 5, 12) },
-]
+export async function loader(){
+  const expenses:Expense[] = await fetchExpenses();
+
+  return json({expenses})
+}
+
 
 export default function Expenses() {
+    const { expenses } = useLoaderData();
+
     return (
       <>
         <Outlet />
@@ -25,7 +30,7 @@ export default function Expenses() {
             </a>
 
           </section>
-          <ExpensesList expenses={DUMMY_EXPENSES}/>
+          <ExpensesList expenses={expenses}/>
         </main>
       </>
     )
