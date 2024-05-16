@@ -8,13 +8,10 @@ function MainHeaderExpenses() {
       <nav id="main-nav">
         <ul>
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/expenses/analysis">Analyse Expenses</NavLink>
           </li>
           <li>
-            <NavLink to="/pricing">Pricing</NavLink>
-          </li>
-          <li>
-            <NavLink to="/expenses">Expenses</NavLink>
+            <NavLink to="/expenses">Manage Expenses</NavLink>
           </li>
         </ul>
       </nav>

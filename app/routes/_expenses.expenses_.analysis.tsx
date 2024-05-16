@@ -1,18 +1,55 @@
+import { json } from "@remix-run/node";
+import { Link, isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
+import { fetchExpenses } from "~/backend/expenses.server";
 import Chart from "~/components/expenses/Chart";
 import ExpenseStatistics from "~/components/expenses/ExpenseStatistics";
+import Error from "~/components/util/Error";
 
-const DUMMY_EXPENSES = [
-  { id: "e1", title: "Toilet Paper", amount: 94.12, date: new Date(2022, 7, 14) },
-  { id: "e2", title: "New TV", amount: 799.49, date: new Date(2022, 2, 12) },
-  { id: "e3", title: "Car Insurance", amount: 294.67, date: new Date(2022, 2, 28) },
-  { id: "e4", title: "New Desk (Wooden)", amount: 450, date: new Date(2022, 5, 12) },
-]
+export async function loader() {
+  const expenses = await fetchExpenses();
+
+  if(!expenses || expenses.length === 0) {
+    throw json({ message: "No expenses found are" }, { status: 404 });
+  }
+
+  return json({ expenses });
+}
 
 export default function ExpensesAnalysis() {
+    const { expenses }=useLoaderData()
     return (
       <main>
-        <Chart expenses={DUMMY_EXPENSES}/>
-        <ExpenseStatistics expenses={DUMMY_EXPENSES}/>
+        <Chart expenses={expenses}/>
+        <ExpenseStatistics expenses={expenses}/>
       </main>
     )
+  }
+
+
+  export function ErrorBoundary() {
+    const error = useRouteError();
+  
+    // when true, this is what used to go to `CatchBoundary` check the error that are expected to have
+    console.log(isRouteErrorResponse(error))
+    if (isRouteErrorResponse(error)) {
+      return (
+        <main>
+          <Error title={error.statusText}>
+            <p>{error.data.message}</p>
+            <p>Back to <Link to="/">Safety</Link>.</p>
+          </Error>
+        </main>
+      );
+    }
+    else{
+      //other error unexpected and given from loader or actions
+      return (
+        <main>
+          <Error title="Error message">
+            <p>{error.message}</p>
+            <p>Back to <Link to="/expenses/add">add</Link>.</p>
+          </Error>
+        </main>
+      );
+    }
   }
