@@ -30,3 +30,17 @@ export async function fetchExpenses():Promise<Expense[]> {
         throw new Error("Failed to fetch expenses");
     }
 }
+
+export async function getExpense(id:string):Promise<Expense | null> {
+    try {
+        const expense = await prisma.expense.findUnique({
+            where: {
+                id,
+            },
+        });
+        return expense;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to fetch expense");
+    }
+}
