@@ -44,3 +44,22 @@ export async function getExpense(id:string):Promise<Expense | null> {
         throw new Error("Failed to fetch expense");
     }
 }
+
+export async function updateExpense(id:string, expenseData:Expense):Promise<Expense> {
+    try {
+        const expense = await prisma.expense.update({
+            where: {
+                id,
+            },
+            data: {
+                title: expenseData.title,
+                amount: +expenseData.amount,
+                date: new Date(expenseData.date),
+            },
+        });
+        return expense;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to update expense");
+    }
+}
