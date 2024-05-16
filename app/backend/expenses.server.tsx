@@ -63,3 +63,16 @@ export async function updateExpense(id:string, expenseData:Expense):Promise<Expe
         throw new Error("Failed to update expense");
     }
 }
+
+export async function deleteExpense(id:string):Promise<void> {
+    try {
+        await prisma.expense.delete({
+            where: {
+                id,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to delete expense");
+    }
+}

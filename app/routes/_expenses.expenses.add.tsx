@@ -22,7 +22,6 @@ export default function ExpensesAdd() {
 
 export async function action({request}:ActionFunctionArgs){
   const body = await request.formData();
-  console.log(Object.fromEntries(body))
   try{
     validateExpenseInput(Object.fromEntries(body))
   }
